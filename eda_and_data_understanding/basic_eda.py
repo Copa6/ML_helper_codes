@@ -37,7 +37,7 @@ def plot_column_counts_by_category(data, columns=None, missing_fill=-1, max_uniq
 			sns.countplot(data[column].fillna(missing_fill))
 
 
-def categorical_target_count_plot(data, target_column, columns=None, missing_fill=-1, max_uniques=10):
+def categorical_var_count_by_target(data, target_column, columns=None, missing_fill=-1, max_uniques=10):
 	sns.set_style("white")
 	updated_data = data.copy().fillna(missing_fill)
 	plot_columns = columns if columns else data.columns
@@ -47,6 +47,15 @@ def categorical_target_count_plot(data, target_column, columns=None, missing_fil
 			sns.catplot(x=column, hue=target_column, kind="count", data=updated_data);
 
 
+def boxplot_by_category(data, target_column, columns=None, missing_fill=-1, max_uniques=10)
+	sns.set_style("white")
+	updated_data = data.copy().fillna(missing_fill)
+	plot_columns = columns if columns else data.columns
+	for column in columns:
+		if data[column].nunique() <= max_uniques:
+			plt.figure()
+			sns.catplot(x=column, hue=target_column, kind="box", data=updated_data);
+
 if __name__=="__main__":
 	data = pd.read_csv("data_csv_path.csv", sep=",")
 	target_var = "target"
@@ -54,7 +63,8 @@ if __name__=="__main__":
 	data_summary(data)
 	plot_column_counts_by_category(data)
 
-	categorical_target_count_plot(data, target_column=var)
+	categorical_var_count_by_target(data, target_column=var)
+	boxplot_by_category(data, target_column=var)
 
 
 

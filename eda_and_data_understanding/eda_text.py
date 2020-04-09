@@ -2,9 +2,7 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import regex as re 
-import spacy
-import nltk
-from nltk.corpus import stopwords
+
 
 # ### If nltk data is not downloaded ###
 # nltk.download('stopwords')
@@ -23,5 +21,8 @@ def generate_custom_features(data, column=None):
 
 	numbers_regexp = re.compile(r'[0-9]')
 	return_data[f"{column}_count_numbers"] = text_data.apply(lambda t: len(re.findall(numbers_regexp, t)))
+
+	links_regexp = re.compile(r'((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*')
+	return_data[f"{column}_count_links"] = text_data.apply(lambda t: len(re.findall(links_regexp, t)))
 
 	return return_data
