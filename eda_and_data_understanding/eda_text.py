@@ -1,13 +1,6 @@
-import pandas as pd
-import numpy as np
-import seaborn as sns
-import regex as re 
-
-
-# ### If nltk data is not downloaded ###
-# nltk.download('stopwords')
-
 def generate_custom_features(data, column=None):
+	import pandas as pd
+	import regex as re
 	text_data = data[column] if column else data.iloc[:,0]
 	
 	return_data = pd.DataFrame()
