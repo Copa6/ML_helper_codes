@@ -1,4 +1,5 @@
 def scale_data(data, columns, save_model=True, model_name="standard_scaler"):
+	import pandas as pd
 	from sklearn.preprocessing import MinMaxScaler
 	from joblib import dump
 
@@ -10,7 +11,9 @@ def scale_data(data, columns, save_model=True, model_name="standard_scaler"):
 
 	return pd.DataFrame(transformed_columns)
 
+
 def scale_data_from_model(data, columns, model_file=None, model=None):
+	import pandas as pd
 	from joblib import load
 	if model_file:
 		scaler = load(model_file)
