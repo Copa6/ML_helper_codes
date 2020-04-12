@@ -8,9 +8,11 @@ def create_model(embeddings_matrix, vocab_size, embedding_dim, MAX_SEQUENCE_LENG
     :return: Keras model instance
     """
     import tensorflow as tf
-    from tensorflow.keras.layers import Input, Bidirectional, Dense, LSTM, Embedding, Concatenate, SpatialDropout1D, \
-        Reshape, BatchNormalization, Dropout, GlobalMaxPool1D
-    from tensorflow.keras.models import Model
+    # from tensorflow.keras.layers import Input, Bidirectional, Dense, LSTM, Embedding, Concatenate, SpatialDropout1D, \
+    #     Reshape, BatchNormalization, Dropout, GlobalMaxPool1D
+    # from tensorflow.keras.models import Model
+    from keras.layers import Input, Bidirectional, LSTM, Embedding
+    from keras.models import Model
 
     tokenized_sents = Input((MAX_SEQUENCE_LENGTH,), dtype=tf.int32)
 
