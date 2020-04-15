@@ -22,3 +22,7 @@ def scale_data_from_model(data, columns, model_file=None, model=None):
 	transformed_columns = scaler.transform(data[columns])
 
 	return pd.DataFrame(transformed_columns)
+
+
+def scale_values_by_group(data, value_colum, scaling_data):
+	pass

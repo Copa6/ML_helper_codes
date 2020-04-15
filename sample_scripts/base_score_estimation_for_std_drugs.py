@@ -249,16 +249,23 @@ for train_index, val_index in gkf:
         optimizer = tf.keras.optimizers.Adam(learning_rate=5e-3)
         model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=[rmse])
 
-        h = model.fit([train_X.iloc[:, :100], train_X.iloc[:, 100], train_X.iloc[:, 101], train_X.iloc[:, 102:104]],
+        h = model.fit([train_X.iloc[:, :MAX_SEQUENCE_LENGTH], train_X.iloc[:, MAX_SEQUENCE_LENGTH],
+                       train_X.iloc[:, MAX_SEQUENCE_LENGTH + 1],
+                       train_X.iloc[:, MAX_SEQUENCE_LENGTH + 2:MAX_SEQUENCE_LENGTH + 4]],
                       train_y,
-                      validation_data=(
-                          [val_X.iloc[:, :100], val_X.iloc[:, 100], val_X.iloc[:, 101], val_X.iloc[:, 102:104]], val_y),
+                      validation_data=([val_X.iloc[:, :MAX_SEQUENCE_LENGTH], val_X.iloc[:, MAX_SEQUENCE_LENGTH],
+                                        val_X.iloc[:, MAX_SEQUENCE_LENGTH + 1],
+                                        val_X.iloc[:, MAX_SEQUENCE_LENGTH + 2:MAX_SEQUENCE_LENGTH + 4]], val_y),
                       epochs=50,
                       batch_size=32,
                       callbacks=[es, rlr])
-        val_preds = model.predict([val_X.iloc[:, :100], val_X.iloc[:, 100], val_X.iloc[:, 101], val_X.iloc[:, 102:104]])
-        test_preds = model.predict([all_test_data.iloc[:, :100], all_test_data.iloc[:, 100], all_test_data.iloc[:, 101],
-                                    all_test_data.iloc[:, 102:104]])
+        val_preds = model.predict([val_X.iloc[:, :MAX_SEQUENCE_LENGTH], val_X.iloc[:, MAX_SEQUENCE_LENGTH],
+                                   val_X.iloc[:, MAX_SEQUENCE_LENGTH + 1],
+                                   val_X.iloc[:, MAX_SEQUENCE_LENGTH + 2:MAX_SEQUENCE_LENGTH + 4]])
+        test_preds = model.predict(
+            [all_test_data.iloc[:, :MAX_SEQUENCE_LENGTH], all_test_data.iloc[:, MAX_SEQUENCE_LENGTH],
+             all_test_data.iloc[:, MAX_SEQUENCE_LENGTH + 1],
+             all_test_data.iloc[:, MAX_SEQUENCE_LENGTH + 2:MAX_SEQUENCE_LENGTH + 4]])
     val_preds_all.append(val_preds)
     test_preds_all.append(test_preds)
     print(f"RMSE on validation set - {metrics.mean_squared_error(val_y, val_preds)}")
